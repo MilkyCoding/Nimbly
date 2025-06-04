@@ -22,14 +22,19 @@ namespace NimblyApp
             this.Dock = DockStyle.Top; // Прикрепляем шапку к верхней части окна
             this.Height = 30; // Высота шапки
             this.BackColor = ColorTranslator.FromHtml("#2d2d2d"); // Цвет фона шапки
+            this.BringToFront(); // Гарантируем, что шапка всегда будет поверх других компонентов
 
             // Добавляем обработчик мыши для перетаскивания окна
             this.MouseDown += (s, e) =>
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    ReleaseCapture();
-                    SendMessage(this.FindForm().Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                    var form = this.FindForm();
+                    if (form != null)
+                    {
+                        ReleaseCapture();
+                        SendMessage(form.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                    }
                 }
             };
 

@@ -6,6 +6,9 @@ namespace NimblyApp
 {
     public class MainForm : Form
     {
+        private HeaderComponent header;
+        private EditorComponent editor;
+
         public MainForm()
         {
             // Настройка параметров окна
@@ -18,13 +21,14 @@ namespace NimblyApp
             // Убираем стандартный тайтл бар
             this.FormBorderStyle = FormBorderStyle.None;
             
-            // Добавляем шапку (HeaderComponent) сверху окна
-            var header = new HeaderComponent();
-            this.Controls.Add(header);
+            // Создаем и добавляем компоненты в правильном порядке
+            header = new HeaderComponent();
+            editor = new EditorComponent();
 
-            // Добавляем редактор
-            var editor = new EditorComponent();
+            // Сначала добавляем редактор
             this.Controls.Add(editor);
+            // Затем добавляем заголовок, чтобы он был поверх
+            this.Controls.Add(header);
         }
     }
 }
