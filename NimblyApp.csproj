@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>ui\assets\app.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ui\assets\logo.png" />
+    <None Remove="ui\assets\app.ico" />
+    <EmbeddedResource Include="ui\assets\logo.png" />
+    <EmbeddedResource Include="ui\assets\app.ico" />
+  </ItemGroup>
+
+</Project>
