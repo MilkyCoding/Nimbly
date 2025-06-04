@@ -54,13 +54,14 @@ namespace NimblyApp
                 AcceptsReturn = true,
                 AcceptsTab = true,
                 WordWrap = false
-            };
+            };  
 
             // Привязка событий
             _textBox.TextChanged += TextBox_TextChanged;
             _textBox.FontChanged += TextBox_FontChanged;
             _textBox.Resize += TextBox_Resize;
             _textBox.SizeChanged += (s, e) => _textBox.Size = new Size(ClientSize.Width - _lineNumberWidth, ClientSize.Height);
+            _textBox.KeyDown += TextBox_KeyDown;
 
             this.Controls.Add(_lineNumberPanel);
             this.Controls.Add(_textBox);
@@ -152,6 +153,18 @@ namespace NimblyApp
         private void TextBox_Resize(object? sender, EventArgs e)
         {
             _lineNumberPanel.Invalidate();
+        }
+
+        private void TextBox_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Tab && !e.Control && !e.Alt && !e.Shift)
+            {
+                // Отменяем стандартное поведение Tab
+                e.SuppressKeyPress = true;
+
+                // Вставляем 4 пробелов вместо символа табуляции
+                _textBox.SelectedText = "    "; // 4 пробелов
+            }
         }
 
         private void UpdateLineNumberWidth()
@@ -268,5 +281,7 @@ namespace NimblyApp
             }
             base.Dispose(disposing);
         }
+
+
     }
 }
