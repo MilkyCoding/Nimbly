@@ -106,7 +106,14 @@ namespace NimblyApp
                 }
             };
 
-            minimizeButton.Click += (s, e) => this.FindForm().WindowState = FormWindowState.Minimized;
+            minimizeButton.Click += (s, e) =>
+            {
+                var form = this.FindForm();
+                if (form != null)
+                {
+                    form.WindowState = FormWindowState.Minimized;
+                }
+            };
 
             this.Controls.Add(minimizeButton);
 
@@ -133,14 +140,17 @@ namespace NimblyApp
             maximizeButton.Click += (s, e) =>
             {
                 var form = this.FindForm();
-                if (form.WindowState == FormWindowState.Maximized)
+                if (form != null)
                 {
-                    form.WindowState = FormWindowState.Normal;
-                    form.Bounds = new Rectangle(100, 100, 800, 600);
-                }
-                else
-                {
-                    form.WindowState = FormWindowState.Maximized;
+                    if (form.WindowState == FormWindowState.Maximized)
+                    {
+                        form.WindowState = FormWindowState.Normal;
+                        form.Bounds = new Rectangle(100, 100, 800, 600);
+                    }
+                    else
+                    {
+                        form.WindowState = FormWindowState.Maximized;
+                    }
                 }
             };
 
@@ -165,7 +175,14 @@ namespace NimblyApp
                 }
             };
 
-            closeButton.Click += (s, e) => this.FindForm().Close();
+            closeButton.Click += (s, e) =>
+            {
+                var form = this.FindForm();
+                if (form != null)
+                {
+                    form.Close();
+                }
+            };
 
             this.Controls.Add(closeButton);
         }
