@@ -10,11 +10,6 @@ namespace NimblyApp
 {
     public class EditorComponent : UserControl
     {
-        [DllImport("uxtheme.dll", CharSet = CharSet.Unicode)]
-        private static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
-
-        [DllImport("user32.dll")]
-        private static extern int GetScrollPos(IntPtr hWnd, int nBar);
 
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
@@ -106,6 +101,7 @@ namespace NimblyApp
 
             // Настройки шрифта и кисти
             using (var brush = new SolidBrush(ColorTranslator.FromHtml("#858585")))
+            using (var currentLineBrush = new SolidBrush(ThemeColors.DarkLightColor))
             {
                 var fontHeight = (float)Math.Ceiling(_textBox.Font.GetHeight(g));
                 var format = new StringFormat
@@ -118,18 +114,28 @@ namespace NimblyApp
                 int firstVisibleLine = GetFirstVisibleLine();
                 int visibleLines = GetVisibleLinesCount();
                 int totalLines = Math.Max(_textBox.Lines.Length, 1);
+                int currentLine = _textBox.GetLineFromCharIndex(_textBox.SelectionStart);
 
                 // Рисуем номера строк
                 for (int i = 0; i < visibleLines && (firstVisibleLine + i) < totalLines; i++)
                 {
                     int lineNumber = firstVisibleLine + i + 1;
                     float y = i * fontHeight;
+                    var rect = new RectangleF(0, y, panel.Width, fontHeight);
 
-                    var rect = new RectangleF(5, y, panel.Width - 10, fontHeight);
-                    g.DrawString(lineNumber.ToString(), _textBox.Font, brush, rect, format);
+                    // Подсветка текущей строки
+                    if (firstVisibleLine + i == currentLine)
+                    {
+                        g.FillRectangle(currentLineBrush, rect);
+                    }
+
+                    // Номер строки
+                    var textRect = new RectangleF(5, y, panel.Width - 10, fontHeight);
+                    g.DrawString(lineNumber.ToString(), _textBox.Font, brush, textRect, format);
                 }
             }
         }
+
 
         private void TextBox_TextChanged(object? sender, EventArgs e)
         {
