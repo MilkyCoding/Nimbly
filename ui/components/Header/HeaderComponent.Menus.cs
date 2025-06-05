@@ -1,6 +1,3 @@
-using System.Windows.Forms;
-using System.Drawing;
-
 namespace NimblyApp
 {
     public partial class HeaderComponent

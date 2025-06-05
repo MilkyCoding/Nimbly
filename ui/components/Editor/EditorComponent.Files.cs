@@ -1,7 +1,3 @@
-using System;
-using System.Windows.Forms;
-using System.Drawing;
-using System.IO;
 using System.ComponentModel;
 
 namespace NimblyApp

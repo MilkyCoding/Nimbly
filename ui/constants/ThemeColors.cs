@@ -1,5 +1,3 @@
-using System.Drawing;
-
 namespace NimblyApp
 {
     public static class ThemeColors

@@ -1,6 +1,3 @@
-using System.Windows.Forms;
-using System.Drawing;
-
 namespace NimblyApp
 {
     public partial class HeaderComponent
@@ -103,9 +100,9 @@ namespace NimblyApp
                 }
             };
 
-            controlButtonsPanel.Controls.Add(closeButton);
-            controlButtonsPanel.Controls.Add(maximizeButton);
             controlButtonsPanel.Controls.Add(minimizeButton);
+            controlButtonsPanel.Controls.Add(maximizeButton);
+            controlButtonsPanel.Controls.Add(closeButton);
         }
 
         private Button CreateHeaderButton(string text, string fontFamily)
@@ -131,4 +128,4 @@ namespace NimblyApp
             };
         }
     }
-} 
+}

@@ -1,7 +1,3 @@
-using System.Windows.Forms;
-using NimblyApp;
-using System.Drawing;
-
 namespace NimblyApp
 {
     public class MainForm : Form
