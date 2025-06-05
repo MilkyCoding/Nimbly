@@ -1,21 +1,32 @@
 using System.Drawing;
 using System.Reflection;
+using System.Diagnostics;
 
 namespace NimblyApp
 {
     public static class ResourceUtils
     {
-        public static Image? GetIcon(string resourceName)
+        public static Image GetIcon(string resourceName)
         {
-            try
+            var assembly = Assembly.GetExecutingAssembly();
+            var fullResourceName = $"NimblyApp.{resourceName}";
+            
+            // Debug: List all available resources
+            var resources = assembly.GetManifestResourceNames();
+            Trace.WriteLine("Available resources:");
+            foreach (var resource in resources)
             {
-                using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"NimblyApp.{resourceName}");
-                return stream != null ? Image.FromStream(stream) : null;
+                Trace.WriteLine($"- {resource}");
             }
-            catch
+            
+            using var stream = assembly.GetManifestResourceStream(fullResourceName);
+            if (stream == null)
             {
-                return null;
+                var error = $"Resource {fullResourceName} not found. Available resources: {string.Join(", ", resources)}";
+                Trace.WriteLine(error);
+                throw new Exception(error);
             }
+            return Image.FromStream(stream);
         }
     }
 } 

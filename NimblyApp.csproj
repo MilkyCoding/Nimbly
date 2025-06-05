@@ -7,13 +7,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>ui\assets\app.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ui\assets\logo.png" />
-    <None Remove="ui\assets\app.ico" />
-    <EmbeddedResource Include="ui\assets\logo.png" />
-    <EmbeddedResource Include="ui\assets\app.ico" />
+    <EmbeddedResource Include="ui\assets\**" />
   </ItemGroup>
 
 </Project>
