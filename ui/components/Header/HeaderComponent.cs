@@ -12,6 +12,12 @@ namespace NimblyApp
 
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HT_CAPTION = 0x2;
+        private EditorComponent? _editor;
+
+        public void SetEditor(EditorComponent editor)
+        {
+            _editor = editor;
+        }
 
         public HeaderComponent()
         {

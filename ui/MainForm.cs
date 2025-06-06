@@ -26,6 +26,9 @@ namespace NimblyApp
             editor = new EditorComponent();
             placeholder = new PlaceholderComponent();
 
+            // Связываем компоненты
+            header.SetEditor(editor);
+
             // Подписываемся на событие создания нового файла
             placeholder.CreateNewFileClicked += OnCreateNewFile;
 

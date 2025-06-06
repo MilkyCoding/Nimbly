@@ -66,6 +66,11 @@ namespace NimblyApp
             _textBox.Resize += TextBox_Resize;
             _textBox.KeyDown += TextBox_KeyDown;
 
+            // Подписываемся на события вкладок
+            _tabsComponent.TabSwitched += TabsComponent_TabSwitched;
+            _tabsComponent.NewTabCreated += TabsComponent_NewTabCreated;
+            _tabsComponent.ContentRequested += TabsComponent_ContentRequested;
+
             // Собираем структуру контролов
             _editorContainer.Controls.Add(_textBox);
             _editorContainer.Controls.Add(_lineNumberPanel);
@@ -82,6 +87,25 @@ namespace NimblyApp
             };
         }
 
+        private void TabsComponent_TabSwitched(object? sender, TabsComponent.TabEventArgs e)
+        {
+            _textBox.Text = e.Content;
+            CurrentFileName = e.Title;
+            IsModified = e.IsModified;
+        }
+
+        private void TabsComponent_NewTabCreated(object? sender, TabsComponent.TabEventArgs e)
+        {
+            _textBox.Text = e.Content;
+            CurrentFileName = e.Title;
+            IsModified = e.IsModified;
+        }
+
+        private void TabsComponent_ContentRequested(object? sender, EventArgs e)
+        {
+            _tabsComponent.SaveCurrentContent(_textBox.Text);
+        }
+
         public void InitializeTabs()
         {
             if (_tabsComponent != null)
@@ -89,6 +113,10 @@ namespace NimblyApp
                 _tabsComponent.Initialize();
             }
         }
-    }
 
+        public void CreateNewTab()
+        {
+            _tabsComponent.AddNewTab();
+        }
+    }
 }

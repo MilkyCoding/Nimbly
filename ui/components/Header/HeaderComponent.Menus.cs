@@ -16,10 +16,23 @@ namespace NimblyApp
             menu.Items.Add("File", null, (s, e) =>
             {
                 var fileMenu = new ContextMenuStrip();
-                fileMenu.Items.Add("New", null, (s2, e2) => { /* TODO: New file */ });
-                fileMenu.Items.Add("Open", null, (s2, e2) => { /* TODO: Open file */ });
-                fileMenu.Items.Add("Save", null, (s2, e2) => { /* TODO: Save file */ });
-                fileMenu.Items.Add("Save As", null, (s2, e2) => { /* TODO: Save as */ });
+                fileMenu.Items.Add("New", null, (s2, e2) => { _editor?.NewFile(); });
+                fileMenu.Items.Add("Open", null, (s2, e2) => 
+                {
+                    using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                    {
+                        openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                        openFileDialog.FilterIndex = 1;
+                        openFileDialog.RestoreDirectory = true;
+
+                        if (openFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            _editor?.OpenFile(openFileDialog.FileName);
+                        }
+                    }
+                });
+                fileMenu.Items.Add("Save", null, (s2, e2) => { _editor?.SaveFile(); });
+                fileMenu.Items.Add("Save As", null, (s2, e2) => { _editor?.SaveFileAs(); });
                 fileMenu.Show(control, new Point(menu.Width, menu.Items[0].Bounds.Y));
             });
             menu.Items.Add("Help", null, (s, e) => { /* TODO: Show help */ });

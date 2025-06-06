@@ -83,7 +83,35 @@ namespace NimblyApp
             this.Controls.Add(_tabsPanel);
         }
 
-        private void AddNewTab()
+        public void Initialize()
+        {
+            // Добавляем вкладку "New" по умолчанию
+            AddNewTab();
+        }
+
+        public void UpdateActiveTabTitle(string newTitle)
+        {
+            if (_activeTab != null)
+            {
+                _activeTab.Title = newTitle;
+            }
+        }
+
+        public void SetActiveTabModified(bool isModified)
+        {
+            if (_activeTab != null)
+            {
+                _activeTab.IsModified = isModified;
+                _activeTab.UpdateDisplay();
+            }
+        }
+
+        private void NewTabButton_Click(object? sender, EventArgs e)
+        {
+            AddNewTab();
+        }
+
+        public void AddNewTab()
         {
             string title = _newFileCounter == 0 ? "New" : $"New-{_newFileCounter}";
             _newFileCounter++;
@@ -115,17 +143,6 @@ namespace NimblyApp
             };
             button.FlatAppearance.BorderSize = 0;
             return button;
-        }
-
-        private void NewTabButton_Click(object? sender, EventArgs e)
-        {
-            AddNewTab();
-        }
-
-        public void Initialize()
-        {
-            // Добавляем вкладку "New" по умолчанию
-            AddNewTab();
         }
     }
 } 
