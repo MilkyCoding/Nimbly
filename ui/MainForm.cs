@@ -4,6 +4,8 @@ namespace NimblyApp
     {
         private HeaderComponent header;
         private EditorComponent editor;
+        private PlaceholderComponent placeholder;
+        private bool hasOpenFile = false;
 
         public MainForm()
         {
@@ -17,14 +19,34 @@ namespace NimblyApp
             // Убираем стандартный тайтл бар
             this.FormBorderStyle = FormBorderStyle.None;
             
-            // Создаем и добавляем компоненты в правильном порядке
+            // Создаем компоненты
             header = new HeaderComponent();
             editor = new EditorComponent();
+            placeholder = new PlaceholderComponent();
 
-            // Сначала добавляем редактор
+            // Подписываемся на событие создания нового файла
+            placeholder.CreateNewFileClicked += OnCreateNewFile;
+
+            // Добавляем компоненты в правильном порядке
             this.Controls.Add(editor);
-            // Затем добавляем заголовок, чтобы он был поверх
+            this.Controls.Add(placeholder);
             this.Controls.Add(header);
+
+            // По умолчанию показываем плейсхолдер
+            UpdateComponentsVisibility();
+        }
+
+        private void OnCreateNewFile(object sender, EventArgs e)
+        {
+            // Здесь будет логика создания нового файла
+            hasOpenFile = true;
+            UpdateComponentsVisibility();
+        }
+
+        private void UpdateComponentsVisibility()
+        {
+            editor.Visible = hasOpenFile;
+            placeholder.Visible = !hasOpenFile;
         }
     }
 }
