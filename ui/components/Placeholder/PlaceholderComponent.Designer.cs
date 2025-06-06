@@ -10,13 +10,13 @@ namespace NimblyApp
         private void InitializeComponent()
         {
             this.Dock = DockStyle.Fill;
-            this.BackColor = Color.FromArgb(18, 18, 18); // Более темный фон для контраста
+            this.BackColor = ThemeColors.PlaceholderBackground; // Более темный фон для контраста
 
             // Создаем и настраиваем иконку
             var iconLabel = new Label
             {
                 Text = "📁",
-                ForeColor = Color.FromArgb(80, 80, 80),
+                ForeColor = ThemeColors.PlaceholderIcon,
                 Font = new Font("Segoe UI", 72, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = false,
@@ -28,7 +28,7 @@ namespace NimblyApp
             messageLabel = new Label
             {
                 Text = "Файл не найден",
-                ForeColor = Color.FromArgb(180, 180, 180),
+                ForeColor = ThemeColors.PlaceholderText,
                 Font = new Font("Segoe UI Light", 26, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = false,
@@ -39,7 +39,7 @@ namespace NimblyApp
             var hintLabel = new Label
             {
                 Text = "Создайте новый файл, чтобы начать работу",
-                ForeColor = Color.FromArgb(100, 100, 100),
+                ForeColor = ThemeColors.PlaceholderHint,
                 Font = new Font("Segoe UI", 12, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter,
                 AutoSize = false,
@@ -51,8 +51,8 @@ namespace NimblyApp
             {
                 Text = "Создать новый файл",
                 FlatStyle = FlatStyle.Flat,
-                BackColor = Color.FromArgb(0, 122, 204),
-                ForeColor = Color.White,
+                BackColor = ThemeColors.PlaceholderButton,
+                ForeColor = ThemeColors.WhiteColor,
                 Font = new Font("Segoe UI Semibold", 14, FontStyle.Regular),
                 Cursor = Cursors.Hand,
                 Size = new Size(280, 50)

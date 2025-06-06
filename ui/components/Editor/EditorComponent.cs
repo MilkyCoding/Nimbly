@@ -18,7 +18,7 @@ namespace NimblyApp
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
 
             this.Dock = DockStyle.Fill;
-            this.BackColor = ColorTranslator.FromHtml("#1e1e1e");
+            this.BackColor = ThemeColors.MainBackground;
             this.Padding = new Padding(0);
 
             // Создаем компонент вкладок
@@ -31,7 +31,7 @@ namespace NimblyApp
             _editorContainer = new Panel
             {
                 Dock = DockStyle.Fill,
-                BackColor = ColorTranslator.FromHtml("#1e1e1e"),
+                BackColor = ThemeColors.MainBackground,
                 Padding = new Padding(0)
             };
 
@@ -40,7 +40,7 @@ namespace NimblyApp
             {
                 Dock = DockStyle.Left,
                 Width = _lineNumberWidth,
-                BackColor = ColorTranslator.FromHtml("#2d2d30"),
+                BackColor = ThemeColors.LineNumberPanel,
                 BorderStyle = BorderStyle.None
             };
             _lineNumberPanel.Paint += LineNumberPanel_Paint;
@@ -50,8 +50,8 @@ namespace NimblyApp
             {
                 Multiline = true,
                 Dock = DockStyle.Fill,
-                BackColor = ColorTranslator.FromHtml("#1e1e1e"),
-                ForeColor = Color.White,
+                BackColor = ThemeColors.MainBackground,
+                ForeColor = ThemeColors.WhiteColor,
                 Font = new Font("Consolas", 12),
                 BorderStyle = BorderStyle.None,
                 ScrollBars = ScrollBars.Vertical,

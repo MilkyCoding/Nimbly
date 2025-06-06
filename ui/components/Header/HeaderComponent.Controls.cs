@@ -30,7 +30,7 @@ namespace NimblyApp
                 Height = 30,
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Consolas", 12),
-                ForeColor = ColorTranslator.FromHtml("#3e3e42"),
+                ForeColor = ThemeColors.Separator,
                 BackColor = Color.Transparent,
                 Dock = DockStyle.Right,
                 Margin = new Padding(0)

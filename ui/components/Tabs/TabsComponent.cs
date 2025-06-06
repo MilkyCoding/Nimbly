@@ -50,7 +50,7 @@ namespace NimblyApp
 
             this.Dock = DockStyle.Top;
             this.Height = 30;
-            this.BackColor = ColorTranslator.FromHtml("#2d2d2d");
+            this.BackColor = ThemeColors.TabPanel;
             this.Padding = new Padding(0);
 
             // Панель для вкладок
@@ -60,7 +60,7 @@ namespace NimblyApp
                 FlowDirection = FlowDirection.LeftToRight,
                 WrapContents = true,
                 AutoScroll = true,
-                BackColor = ColorTranslator.FromHtml("#2d2d2d")
+                BackColor = ThemeColors.TabPanel
             };
 
             // Кнопка новой вкладки
@@ -71,8 +71,8 @@ namespace NimblyApp
                 Height = this.Height,
                 Dock = DockStyle.Right,
                 FlatStyle = FlatStyle.Flat,
-                ForeColor = Color.White,
-                BackColor = ColorTranslator.FromHtml("#2d2d2d"),
+                ForeColor = ThemeColors.WhiteColor,
+                BackColor = ThemeColors.TabPanel,
                 Font = new Font("Segoe UI", 12, FontStyle.Bold),
                 Cursor = Cursors.Hand
             };
@@ -135,8 +135,8 @@ namespace NimblyApp
                 Height = this.Height - 2,
                 AutoSize = true,
                 FlatStyle = FlatStyle.Flat,
-                ForeColor = Color.White,
-                BackColor = ColorTranslator.FromHtml("#3d3d3d"),
+                ForeColor = ThemeColors.WhiteColor,
+                BackColor = ThemeColors.TabInactive,
                 Font = new Font("Consolas", 10),
                 Padding = new Padding(10, 0, 10, 0),
                 Margin = new Padding(1, 1, 0, 0),

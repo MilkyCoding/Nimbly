@@ -71,11 +71,11 @@ namespace NimblyApp
 
             if (_activeTab != null)
             {
-                _activeTab.TabButton.BackColor = ColorTranslator.FromHtml("#3d3d3d");
+                _activeTab.TabButton.BackColor = ThemeColors.TabInactive;
             }
 
             _activeTab = tab;
-            _activeTab.TabButton.BackColor = ColorTranslator.FromHtml("#4d4d4d");
+            _activeTab.TabButton.BackColor = ThemeColors.TabActive;
             
             OnTabSwitched(tab);
             UpdateDiscordPresence();

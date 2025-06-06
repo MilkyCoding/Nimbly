@@ -9,16 +9,16 @@ namespace NimblyApp
             if (panel == null) return;
 
             // Очищаем фон
-            g.Clear(ColorTranslator.FromHtml("#2d2d30"));
+            g.Clear(ThemeColors.LineNumberPanel);
 
             // Рисуем разделительную линию
-            using (var pen = new Pen(ColorTranslator.FromHtml("#3e3e42"), 1))
+            using (var pen = new Pen(ThemeColors.Separator, 1))
             {
                 g.DrawLine(pen, panel.Width - 1, 0, panel.Width - 1, panel.Height);
             }
 
             // Настройки шрифта и кисти
-            using (var brush = new SolidBrush(ColorTranslator.FromHtml("#858585")))
+            using (var brush = new SolidBrush(ThemeColors.LineNumberText))
             using (var currentLineBrush = new SolidBrush(ThemeColors.DarkLightColor))
             {
                 var fontHeight = (float)Math.Ceiling(_textBox.Font.GetHeight(g));

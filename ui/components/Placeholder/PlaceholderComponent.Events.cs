@@ -7,8 +7,8 @@ namespace NimblyApp
 {
     public partial class PlaceholderComponent
     {
-        private Color buttonDefaultColor = Color.FromArgb(0, 122, 204);
-        private Color buttonHoverColor = Color.FromArgb(0, 142, 234);
+        private Color buttonDefaultColor = ThemeColors.PlaceholderButton;
+        private Color buttonHoverColor = ThemeColors.PlaceholderButtonHover;
 
         private void InitializeEvents()
         {
@@ -34,7 +34,7 @@ namespace NimblyApp
         private void AnimateButtonClick()
         {
             var originalColor = createNewFileButton.BackColor;
-            createNewFileButton.BackColor = Color.FromArgb(0, 102, 184);
+            createNewFileButton.BackColor = ThemeColors.PlaceholderButtonActive;
             
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             timer.Interval = 100;
