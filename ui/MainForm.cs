@@ -34,6 +34,9 @@ namespace NimblyApp
             // Подписываемся на событие создания нового файла
             placeholder.CreateNewFileClicked += OnCreateNewFile;
 
+            // Подписываемся на событие смены файла в редакторе
+            editor.FileNameChanged += OnEditorFileNameChanged;
+
             // Добавляем компоненты в правильном порядке
             this.Controls.Add(editor);
             this.Controls.Add(placeholder);
@@ -67,6 +70,17 @@ namespace NimblyApp
             {
                 DiscordRPCService.UpdatePresence("Idle", "Ready to code");
             }
+        }
+
+        private void OnEditorFileNameChanged(object? sender, EventArgs e)
+        {
+            string fileName = editor.CurrentFileName;
+            string ext = string.Empty;
+            if (!string.IsNullOrEmpty(fileName) && fileName.Contains('.'))
+            {
+                ext = fileName.Substring(fileName.LastIndexOf('.') + 1);
+            }
+            footer.SetExtension(ext);
         }
     }
 }
