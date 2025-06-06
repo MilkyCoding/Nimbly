@@ -7,6 +7,7 @@ namespace NimblyApp
         private HeaderComponent header;
         private EditorComponent editor;
         private PlaceholderComponent placeholder;
+        private FooterComponent footer;
         private bool hasOpenFile = false;
 
         public MainForm()
@@ -25,6 +26,7 @@ namespace NimblyApp
             header = new HeaderComponent();
             editor = new EditorComponent();
             placeholder = new PlaceholderComponent();
+            footer = new FooterComponent();
 
             // Связываем компоненты
             header.SetEditor(editor);
@@ -36,6 +38,7 @@ namespace NimblyApp
             this.Controls.Add(editor);
             this.Controls.Add(placeholder);
             this.Controls.Add(header);
+            this.Controls.Add(footer);
 
             // По умолчанию показываем плейсхолдер
             UpdateComponentsVisibility();
