@@ -36,7 +36,7 @@ namespace NimblyApp
             UpdateComponentsVisibility();
         }
 
-        private void OnCreateNewFile(object sender, EventArgs e)
+        private void OnCreateNewFile(object? sender, EventArgs e)
         {
             // Здесь будет логика создания нового файла
             hasOpenFile = true;

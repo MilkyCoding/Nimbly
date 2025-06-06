@@ -2,14 +2,40 @@ using System.ComponentModel;
 
 namespace NimblyApp
 {
-    public class TabsComponent : UserControl
+    public partial class TabsComponent : UserControl
     {
+        public class TabInfo
+        {
+            public string Title { get; set; }
+            public string Content { get; set; }
+            public bool IsModified { get; set; }
+            public Button TabButton { get; }
+
+            public TabInfo(string title, Button button)
+            {
+                Title = title;
+                Content = string.Empty;
+                IsModified = false;
+                TabButton = button;
+                UpdateDisplay();
+            }
+
+            public void UpdateDisplay()
+            {
+                TabButton.Text = $"{Title}{(IsModified ? "*" : "")}";
+            }
+        }
+
         private readonly FlowLayoutPanel _tabsPanel;
         private readonly Button _newTabButton;
+        private readonly List<TabInfo> _tabs;
+        private TabInfo? _activeTab;
         private int _newFileCounter = 0;
 
         public TabsComponent()
         {
+            _tabs = new List<TabInfo>();
+
             this.Dock = DockStyle.Top;
             this.Height = 30;
             this.BackColor = ColorTranslator.FromHtml("#2d2d2d");
@@ -41,7 +67,7 @@ namespace NimblyApp
             _newTabButton.FlatAppearance.BorderSize = 0;
             _newTabButton.Click += NewTabButton_Click;
 
-            // Добавляем вкладку "New File" по умолчанию
+            // Добавляем вкладку "New" по умолчанию
             AddNewTab();
 
             this.Controls.Add(_newTabButton);
@@ -52,12 +78,21 @@ namespace NimblyApp
         {
             string title = _newFileCounter == 0 ? "New" : $"New-{_newFileCounter}";
             _newFileCounter++;
-            AddTab(title);
+
+            var tab = CreateTabButton(title);
+            var tabInfo = new TabInfo(title, tab);
+            _tabs.Add(tabInfo);
+            
+            tab.Click += (s, e) => ActivateTab(tabInfo);
+            _tabsPanel.Controls.Add(tab);
+
+            ActivateTab(tabInfo);
+            OnNewTabCreated(tabInfo);
         }
 
-        private void AddTab(string title)
+        private Button CreateTabButton(string title)
         {
-            var tab = new Button
+            var button = new Button
             {
                 Text = title,
                 Height = this.Height - 2,
@@ -70,17 +105,12 @@ namespace NimblyApp
                 Margin = new Padding(1, 1, 0, 0),
                 Cursor = Cursors.Hand
             };
-            tab.FlatAppearance.BorderSize = 0;
-            
-            _tabsPanel.Controls.Add(tab);
+            button.FlatAppearance.BorderSize = 0;
+            return button;
         }
-
         private void NewTabButton_Click(object? sender, EventArgs e)
         {
             AddNewTab();
-            NewTabRequested?.Invoke(this, EventArgs.Empty);
         }
-
-        public event EventHandler? NewTabRequested;
     }
 } 

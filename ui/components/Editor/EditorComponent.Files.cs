@@ -4,7 +4,7 @@ namespace NimblyApp
 {
     public partial class EditorComponent
     {
-        private string _currentFileName = "New File";
+        private string _currentFileName = "";
         private bool _isModified = false;
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]

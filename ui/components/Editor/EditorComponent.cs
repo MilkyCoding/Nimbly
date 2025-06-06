@@ -78,6 +78,7 @@ namespace NimblyApp
             {
                 UpdateLineNumberWidth();
                 _lineNumberPanel.Invalidate();
+                InitializeTabsHandling();
             };
         }
     }
