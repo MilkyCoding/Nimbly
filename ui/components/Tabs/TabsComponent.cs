@@ -6,14 +6,23 @@ namespace NimblyApp
     {
         public class TabInfo
         {
-            public string Title { get; set; }
+            private string _title;
+            public string Title 
+            { 
+                get => _title;
+                set
+                {
+                    _title = value;
+                    UpdateDisplay();
+                }
+            }
             public string Content { get; set; }
             public bool IsModified { get; set; }
             public Button TabButton { get; }
 
             public TabInfo(string title, Button button)
             {
-                Title = title;
+                _title = title;
                 Content = string.Empty;
                 IsModified = false;
                 TabButton = button;
@@ -22,7 +31,10 @@ namespace NimblyApp
 
             public void UpdateDisplay()
             {
-                TabButton.Text = $"{Title}{(IsModified ? "*" : "")}";
+                if (TabButton != null)
+                {
+                    TabButton.Text = $"{_title}{(IsModified ? "*" : "")}";
+                }
             }
         }
 
@@ -67,9 +79,6 @@ namespace NimblyApp
             _newTabButton.FlatAppearance.BorderSize = 0;
             _newTabButton.Click += NewTabButton_Click;
 
-            // Добавляем вкладку "New" по умолчанию
-            AddNewTab();
-
             this.Controls.Add(_newTabButton);
             this.Controls.Add(_tabsPanel);
         }
@@ -79,7 +88,7 @@ namespace NimblyApp
             string title = _newFileCounter == 0 ? "New" : $"New-{_newFileCounter}";
             _newFileCounter++;
 
-            var tab = CreateTabButton(title);
+            var tab = CreateTabButton();
             var tabInfo = new TabInfo(title, tab);
             _tabs.Add(tabInfo);
             
@@ -90,11 +99,10 @@ namespace NimblyApp
             OnNewTabCreated(tabInfo);
         }
 
-        private Button CreateTabButton(string title)
+        private Button CreateTabButton()
         {
             var button = new Button
             {
-                Text = title,
                 Height = this.Height - 2,
                 AutoSize = true,
                 FlatStyle = FlatStyle.Flat,
@@ -108,8 +116,15 @@ namespace NimblyApp
             button.FlatAppearance.BorderSize = 0;
             return button;
         }
+
         private void NewTabButton_Click(object? sender, EventArgs e)
         {
+            AddNewTab();
+        }
+
+        public void Initialize()
+        {
+            // Добавляем вкладку "New" по умолчанию
             AddNewTab();
         }
     }

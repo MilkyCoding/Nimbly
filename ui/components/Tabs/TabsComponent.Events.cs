@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using NimblyApp.Services;
 
 namespace NimblyApp
 {
@@ -34,6 +35,7 @@ namespace NimblyApp
                 tab.Content,
                 tab.IsModified
             ));
+            UpdateDiscordPresence();
         }
 
         protected virtual void OnNewTabCreated(TabInfo tab)
@@ -61,7 +63,7 @@ namespace NimblyApp
             }
         }
 
-        // Переопределяем метод активации вкладки
+        // Метод активации вкладки
         private void ActivateTab(TabInfo tab)
         {
             // Сначала запрашиваем текущий контент для сохранения
@@ -76,6 +78,25 @@ namespace NimblyApp
             _activeTab.TabButton.BackColor = ColorTranslator.FromHtml("#4d4d4d");
             
             OnTabSwitched(tab);
+            UpdateDiscordPresence();
+        }
+
+        private void UpdateDiscordPresence()
+        {
+            if (_activeTab != null && this.Visible)
+            {
+                DiscordRPCService.UpdatePresence("Editing", $"File: {_activeTab.Title} | {new Random().Next(1000)}");
+            }
+            else
+            {
+                DiscordRPCService.UpdatePresence("Idle", "No file open");
+            }
+        }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+            UpdateDiscordPresence();
         }
     }
 } 

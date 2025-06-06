@@ -1,3 +1,5 @@
+using NimblyApp.Services;
+
 namespace NimblyApp
 {
     public class MainForm : Form
@@ -34,19 +36,31 @@ namespace NimblyApp
 
             // По умолчанию показываем плейсхолдер
             UpdateComponentsVisibility();
+            UpdateDiscordPresence();
+
+            // Инициализируем вкладки после создания всех компонентов
+            editor.InitializeTabs();
         }
 
         private void OnCreateNewFile(object? sender, EventArgs e)
         {
-            // Здесь будет логика создания нового файла
             hasOpenFile = true;
             UpdateComponentsVisibility();
+            UpdateDiscordPresence();
         }
 
         private void UpdateComponentsVisibility()
         {
             editor.Visible = hasOpenFile;
             placeholder.Visible = !hasOpenFile;
+        }
+
+        private void UpdateDiscordPresence()
+        {
+            if (!hasOpenFile)
+            {
+                DiscordRPCService.UpdatePresence("Idle", "Ready to code");
+            }
         }
     }
 }

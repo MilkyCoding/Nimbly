@@ -81,6 +81,14 @@ namespace NimblyApp
                 InitializeTabsHandling();
             };
         }
+
+        public void InitializeTabs()
+        {
+            if (_tabsComponent != null)
+            {
+                _tabsComponent.Initialize();
+            }
+        }
     }
 
 }

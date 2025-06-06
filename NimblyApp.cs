@@ -12,7 +12,7 @@ namespace NimblyApp
             
             // Initialize Discord RPC
             DiscordRPCService.Initialize();
-            DiscordRPCService.UpdatePresence("Editing", "Ready to code");
+            DiscordRPCService.UpdatePresence("Idling", "Drink a cup of coffee.");
             
             Application.Run(new MainForm());
             
