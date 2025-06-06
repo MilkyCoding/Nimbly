@@ -125,6 +125,7 @@ namespace NimblyApp
 
             ActivateTab(tabInfo);
             OnNewTabCreated(tabInfo);
+            UpdateDiscordPresence();
         }
 
         private Button CreateTabButton()

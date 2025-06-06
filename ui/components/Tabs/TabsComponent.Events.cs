@@ -81,11 +81,11 @@ namespace NimblyApp
             UpdateDiscordPresence();
         }
 
-        private void UpdateDiscordPresence()
+        public void UpdateDiscordPresence()
         {
             if (_activeTab != null && this.Visible)
             {
-                DiscordRPCService.UpdatePresence("Editing", $"File: {_activeTab.Title} | {new Random().Next(1000)}");
+                DiscordRPCService.UpdatePresence("Editing", $"File: {_activeTab.Title}");
             }
             else
             {
