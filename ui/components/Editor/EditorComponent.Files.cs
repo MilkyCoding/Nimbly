@@ -68,6 +68,13 @@ namespace NimblyApp
                 CurrentFileName = fileName;
                 _currentFilePath = filePath;
                 IsModified = false;
+
+                // Сохраняем исходное состояние в TabInfo
+                if (_tabsComponent != null)
+                {
+                    _tabsComponent.SaveCurrentContent(content, filePath);
+                    _tabsComponent.SetActiveTabModified(false);
+                }
             }
             catch (Exception ex)
             {
@@ -86,9 +93,17 @@ namespace NimblyApp
 
             try
             {
-                File.WriteAllText(_currentFilePath, _textBox.Text);
+                string content = _textBox.Text;
+                File.WriteAllText(_currentFilePath, content);
                 CurrentFileName = Path.GetFileName(_currentFilePath);
                 IsModified = false;
+
+                // Обновляем исходное состояние после сохранения
+                if (_tabsComponent != null)
+                {
+                    _tabsComponent.SaveCurrentContent(content, _currentFilePath);
+                    _tabsComponent.SetActiveTabModified(false);
+                }
             }
             catch (Exception ex)
             {
@@ -109,10 +124,18 @@ namespace NimblyApp
                 {
                     try
                     {
-                        File.WriteAllText(saveFileDialog.FileName, _textBox.Text);
+                        string content = _textBox.Text;
+                        File.WriteAllText(saveFileDialog.FileName, content);
                         CurrentFileName = Path.GetFileName(saveFileDialog.FileName);
                         _currentFilePath = saveFileDialog.FileName;
                         IsModified = false;
+
+                        // Обновляем исходное состояние после сохранения
+                        if (_tabsComponent != null)
+                        {
+                            _tabsComponent.SaveCurrentContent(content, _currentFilePath);
+                            _tabsComponent.SetActiveTabModified(false);
+                        }
                     }
                     catch (Exception ex)
                     {

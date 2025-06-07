@@ -51,8 +51,12 @@ namespace NimblyApp
         {
             if (_activeTab != null)
             {
+                bool contentChanged = _activeTab.Content != content;
                 _activeTab.Content = content;
-                _activeTab.IsModified = true;
+                if (contentChanged)
+                {
+                    _activeTab.IsModified = true;
+                }
                 _activeTab.FilePath = filePath;
                 _activeTab.UpdateDisplay();
             }
