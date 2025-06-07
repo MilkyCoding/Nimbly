@@ -1,4 +1,5 @@
 using NimblyApp.Services;
+using System.Reflection;
 
 namespace NimblyApp
 {
@@ -17,7 +18,15 @@ namespace NimblyApp
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Width = 800;
             this.Height = 600;
-            this.Icon = new Icon("ui/assets/app.ico");
+
+            // Загружаем иконку из встроенных ресурсов
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("NimblyApp.ui.assets.app.ico"))
+            {
+                if (stream != null)
+                {
+                    this.Icon = new Icon(stream);
+                }
+            }
 
             // Убираем стандартный тайтл бар
             this.FormBorderStyle = FormBorderStyle.None;
