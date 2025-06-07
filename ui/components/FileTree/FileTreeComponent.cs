@@ -74,6 +74,8 @@ namespace NimblyApp
 
         private void LoadDefaultIcons()
         {
+            if (_treeView.ImageList == null) return;
+
             // Загружаем стандартные иконки для файлов и папок
             try
             {

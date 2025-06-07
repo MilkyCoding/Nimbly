@@ -12,7 +12,11 @@ namespace NimblyApp
 
         private void InitializeEvents()
         {
-            this.Resize += PlaceholderComponent_Resize;
+            if (createNewFileButton == null || openFolderButton == null || 
+                messageLabel == null || iconLabel == null || hintLabel == null)
+                return;
+
+            this.Resize += PlaceholderComponent_Resize!;
             
             // Добавляем эффекты при наведении на кнопку нового файла
             createNewFileButton.MouseEnter += (s, e) => {
@@ -69,6 +73,10 @@ namespace NimblyApp
 
         private void UpdateControlsPosition()
         {
+            if (createNewFileButton == null || openFolderButton == null || 
+                messageLabel == null || iconLabel == null || hintLabel == null)
+                return;
+
             int centerY = this.Height / 2;
             int spacing = 20;
 

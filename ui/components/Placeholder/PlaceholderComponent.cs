@@ -6,14 +6,14 @@ namespace NimblyApp
 {
     public partial class PlaceholderComponent : Panel
     {
-        private Button createNewFileButton;
-        private Button openFolderButton;
-        private Label messageLabel;
-        private Label iconLabel;
-        private Label hintLabel;
+        private Button? createNewFileButton;
+        private Button? openFolderButton;
+        private Label? messageLabel;
+        private Label? iconLabel;
+        private Label? hintLabel;
 
-        public event EventHandler CreateNewFileClicked;
-        public event EventHandler OpenFolderClicked;
+        public event EventHandler? CreateNewFileClicked;
+        public event EventHandler? OpenFolderClicked;
 
         public PlaceholderComponent()
         {
