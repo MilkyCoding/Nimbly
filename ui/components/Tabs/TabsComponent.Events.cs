@@ -63,7 +63,7 @@ namespace NimblyApp
         }
 
         // Метод активации вкладки с дополнительным функционалом для событий
-        internal void ActivateTab(TabInfo tab)
+        private void ActivateTab(TabInfo tab)
         {
             // Сначала запрашиваем текущий контент для сохранения
             OnContentRequested();
@@ -86,7 +86,9 @@ namespace NimblyApp
         {
             if (_activeTab != null && this.Visible)
             {
-                DiscordRPCService.UpdatePresence("Editing", $"File: {_activeTab.Title}");
+                string projectName = Path.GetDirectoryName(_activeTab.FilePath ?? "") ?? "No Project";
+                projectName = Path.GetFileName(projectName);
+                DiscordRPCService.UpdatePresence($"Editing | {projectName}", $"File: {_activeTab.Title}");
             }
             else
             {
