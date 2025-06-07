@@ -23,6 +23,7 @@ namespace NimblyApp
         private static Color _limeColor = ColorTranslator.FromHtml("#90EE90");
         private static Color _footerBackground = ColorTranslator.FromHtml("#232323");
         private static Color _footerText = Color.FromArgb(180, 180, 180);
+        private static Color _border = Color.FromArgb(200, 200, 200);
 
         // Public properties
         public static Color MainBackground { get => _mainBackground; set => _mainBackground = value; }
@@ -45,6 +46,7 @@ namespace NimblyApp
         public static Color LimeColor { get => _limeColor; set => _limeColor = value; }
         public static Color FooterBackground { get => _footerBackground; set => _footerBackground = value; }
         public static Color FooterText { get => _footerText; set => _footerText = value; }
+        public static Color Border { get => _border; set => _border = value; }
 
         // Event for notifying when colors change
         public static event EventHandler? ColorsChanged;
@@ -99,6 +101,7 @@ namespace NimblyApp
             _limeColor = ColorTranslator.FromHtml("#90EE90");
             _footerBackground = ColorTranslator.FromHtml("#232323");
             _footerText = Color.FromArgb(180, 180, 180);
+            _border = Color.FromArgb(200, 200, 200);
 
             ColorsChanged?.Invoke(null, EventArgs.Empty);
         }

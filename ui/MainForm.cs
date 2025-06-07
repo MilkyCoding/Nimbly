@@ -9,7 +9,9 @@ namespace NimblyApp
         private EditorComponent editor;
         private PlaceholderComponent placeholder;
         private FooterComponent footer;
+        private LoginComponent login;
         private bool hasOpenFolder = false;
+        private bool isAuthenticated = false;
 
         public MainForm()
         {
@@ -36,6 +38,7 @@ namespace NimblyApp
             editor = new EditorComponent();
             placeholder = new PlaceholderComponent();
             footer = new FooterComponent();
+            login = new LoginComponent();
 
             // Связываем компоненты
             header.SetEditor(editor);
@@ -48,21 +51,32 @@ namespace NimblyApp
             // Подписываемся на событие смены файла в редакторе
             editor.FileNameChanged += OnEditorFileNameChanged;
 
+            // Подписываемся на событие успешной авторизации
+            login.LoginClicked += LoginComponent_LoginSuccessful;
+
             // Подписываемся на изменение цветов
             ThemeColors.ColorsChanged += ThemeColors_ColorsChanged;
 
             // Добавляем компоненты в правильном порядке
             this.Controls.Add(editor);
             this.Controls.Add(placeholder);
+            this.Controls.Add(login);
             this.Controls.Add(header);
             this.Controls.Add(footer);
 
-            // По умолчанию показываем плейсхолдер
+            // По умолчанию показываем форму авторизации
             UpdateComponentsVisibility();
             UpdateDiscordPresence();
 
             // Инициализируем вкладки после создания всех компонентов
             editor.InitializeTabs();
+        }
+
+        private void LoginComponent_LoginSuccessful(object? sender, LoginEventArgs e)
+        {
+            isAuthenticated = true;
+            UpdateComponentsVisibility();
+            UpdateDiscordPresence();
         }
 
         private void ThemeColors_ColorsChanged(object? sender, EventArgs e)
@@ -73,6 +87,7 @@ namespace NimblyApp
             editor.Refresh();
             placeholder.Refresh();
             footer.Refresh();
+            login.Refresh();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -90,27 +105,37 @@ namespace NimblyApp
 
         private void UpdateComponentsVisibility()
         {
-            editor.Visible = hasOpenFolder;
-            placeholder.Visible = !hasOpenFolder;
+            // Показываем компонент авторизации, если пользователь не авторизован
+            login.Visible = !isAuthenticated;
+            
+            // Остальные компоненты показываем только после авторизации
+            bool showMainComponents = isAuthenticated;
+            header.Visible = showMainComponents;
+            footer.Visible = showMainComponents;
+            
+            // Редактор или плейсхолдер показываем в зависимости от состояния
+            if (showMainComponents)
+            {
+                editor.Visible = hasOpenFolder;
+                placeholder.Visible = !hasOpenFolder;
+            }
+            else
+            {
+                editor.Visible = false;
+                placeholder.Visible = false;
+            }
         }
 
         private void UpdateDiscordPresence()
         {
-            if (!hasOpenFolder)
+            if (!isAuthenticated)
+            {
+                DiscordRPCService.UpdatePresence("Login", "Authenticating...");
+            }
+            else if (!hasOpenFolder)
             {
                 DiscordRPCService.UpdatePresence("Idle", "Ready to code");
             }
-        }
-
-        private void OnEditorFileNameChanged(object? sender, EventArgs e)
-        {
-            string fileName = editor.CurrentFileName;
-            string ext = string.Empty;
-            if (!string.IsNullOrEmpty(fileName) && fileName.Contains('.'))
-            {
-                ext = fileName.Substring(fileName.LastIndexOf('.') + 1);
-            }
-            footer.SetExtension(ext);
         }
 
         private void OnOpenFolder(object? sender, EventArgs e)
@@ -130,6 +155,12 @@ namespace NimblyApp
                     UpdateDiscordPresence();
                 }
             }
+        }
+
+        private void OnEditorFileNameChanged(object? sender, EventArgs e)
+        {
+            footer.SetExtension(Path.GetExtension(editor.CurrentFileName));
+            UpdateDiscordPresence();
         }
     }
 }
