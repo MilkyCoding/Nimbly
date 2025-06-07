@@ -1,4 +1,6 @@
 using System.Runtime.InteropServices;
+using System.IO;
+using System.Windows.Forms;
 
 namespace NimblyApp
 {
@@ -127,12 +129,12 @@ namespace NimblyApp
             OpenFile(filePath);
         }
 
-        // Остальные методы остаются без изменений
         private void TabsComponent_TabSwitched(object? sender, TabsComponent.TabEventArgs e)
         {
             _textBox.Text = e.Content;
             CurrentFileName = e.Title;
             IsModified = e.IsModified;
+            _currentFilePath = e.FilePath;
         }
 
         private void TabsComponent_NewTabCreated(object? sender, TabsComponent.TabEventArgs e)
@@ -144,7 +146,10 @@ namespace NimblyApp
 
         private void TabsComponent_ContentRequested(object? sender, EventArgs e)
         {
-            _tabsComponent.SaveCurrentContent(_textBox.Text);
+            if (_tabsComponent != null)
+            {
+                _tabsComponent.SaveCurrentContent(_textBox.Text, _currentFilePath);
+            }
         }
 
         public void InitializeTabs()

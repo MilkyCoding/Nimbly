@@ -10,12 +10,14 @@ namespace NimblyApp
             public string Title { get; }
             public string Content { get; }
             public bool IsModified { get; }
+            public string? FilePath { get; }
 
-            public TabEventArgs(string title, string content, bool isModified)
+            public TabEventArgs(TabInfo tab)
             {
-                Title = title;
-                Content = content;
-                IsModified = isModified;
+                Title = tab.Title;
+                Content = tab.Content;
+                IsModified = tab.IsModified;
+                FilePath = tab.FilePath;
             }
         }
 
@@ -30,21 +32,13 @@ namespace NimblyApp
 
         protected virtual void OnTabSwitched(TabInfo tab)
         {
-            TabSwitched?.Invoke(this, new TabEventArgs(
-                tab.Title,
-                tab.Content,
-                tab.IsModified
-            ));
+            TabSwitched?.Invoke(this, new TabEventArgs(tab));
             UpdateDiscordPresence();
         }
 
         protected virtual void OnNewTabCreated(TabInfo tab)
         {
-            NewTabCreated?.Invoke(this, new TabEventArgs(
-                tab.Title,
-                tab.Content,
-                tab.IsModified
-            ));
+            NewTabCreated?.Invoke(this, new TabEventArgs(tab));
         }
 
         protected virtual void OnContentRequested()
@@ -53,12 +47,13 @@ namespace NimblyApp
         }
 
         // Метод для сохранения текущего контента перед переключением вкладки
-        public void SaveCurrentContent(string content)
+        public void SaveCurrentContent(string content, string? filePath)
         {
             if (_activeTab != null)
             {
                 _activeTab.Content = content;
                 _activeTab.IsModified = true;
+                _activeTab.FilePath = filePath;
                 _activeTab.UpdateDisplay();
             }
         }

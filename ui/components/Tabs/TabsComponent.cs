@@ -18,6 +18,7 @@ namespace NimblyApp
             }
             public string Content { get; set; }
             public bool IsModified { get; set; }
+            public string? FilePath { get; set; }
             public Button TabButton { get; }
 
             public TabInfo(string title, Button button)
@@ -25,6 +26,7 @@ namespace NimblyApp
                 _title = title;
                 Content = string.Empty;
                 IsModified = false;
+                FilePath = null;
                 TabButton = button;
                 UpdateDisplay();
             }

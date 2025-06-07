@@ -24,7 +24,7 @@ namespace NimblyApp
         {
             if (_tabsComponent != null)
             {
-                _tabsComponent.SaveCurrentContent(_textBox.Text);
+                _tabsComponent.SaveCurrentContent(_textBox.Text, _currentFilePath);
             }
         }
     }
