@@ -17,6 +17,7 @@ namespace NimblyApp
         private readonly FileTreeComponent _fileTreeComponent;
         private readonly Panel _mainContentPanel;
         private readonly Splitter _fileTreeSplitter;
+        private readonly Panel _textEditorContainer;
 
         public EditorComponent()
         {
@@ -53,6 +54,14 @@ namespace NimblyApp
             {
                 Dock = DockStyle.Fill,
                 BackColor = ThemeColors.MainBackground
+            };
+
+            // Создаем контейнер для текстового редактора
+            _textEditorContainer = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = ThemeColors.MainBackground,
+                Padding = new Padding(0)
             };
 
             // Создаем контейнер для редактора и номеров строк
@@ -106,8 +115,11 @@ namespace NimblyApp
             _editorContainer.Controls.Add(_textBox);
             _editorContainer.Controls.Add(_lineNumberPanel);
             
-            // Добавляем вкладки и редактор в основной контейнер
-            _mainContentPanel.Controls.Add(_editorContainer);
+            // Добавляем редактор в контейнер
+            _textEditorContainer.Controls.Add(_editorContainer);
+            
+            // Добавляем вкладки и контейнер редактора в основной контейнер
+            _mainContentPanel.Controls.Add(_textEditorContainer);
             _mainContentPanel.Controls.Add(_tabsComponent);
 
             // Добавляем компоненты в главный контрол в правильном порядке

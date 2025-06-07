@@ -6,6 +6,8 @@ namespace NimblyApp
 {
     public partial class EditorComponent
     {
+        public event EventHandler? EditorEmpty;
+
         private void InitializeTabsHandling()
         {
             if (_tabsComponent == null) return;
@@ -13,14 +15,21 @@ namespace NimblyApp
             // Подписываемся на события вкладок
             _tabsComponent.TabSwitched += OnTabSwitched;
             _tabsComponent.ContentRequested += OnContentRequested;
-            _tabsComponent.NewTabCreated += OnTabSwitched;
+            _tabsComponent.NewTabCreated += OnNewTabCreated;
             _tabsComponent.TabClosed += OnTabClosed;
         }
 
         private void OnTabSwitched(object? sender, TabsComponent.TabEventArgs e)
         {
+            // Показываем редактор при переключении на вкладку
+            _textEditorContainer.Visible = true;
+            
+            // Загружаем содержимое вкладки
             _textBox.Text = e.Content;
-            IsModified = e.IsModified;
+            _currentFilePath = e.FilePath;
+            _currentFileName = e.Title;
+            _isModified = e.IsModified;
+            OnFileNameChanged();
         }
 
         private void OnContentRequested(object? sender, EventArgs e)
@@ -33,56 +42,28 @@ namespace NimblyApp
 
         private void OnTabClosed(object? sender, TabsComponent.TabInfo tab)
         {
-            // Если вкладка была изменена, спрашиваем пользователя о сохранении
-            if (tab.IsModified)
-            {
-                var result = MessageBox.Show(
-                    $"Сохранить изменения в файле {tab.Title}?",
-                    "Сохранение",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question
-                );
-
-                switch (result)
-                {
-                    case DialogResult.Yes:
-                        if (!string.IsNullOrEmpty(tab.FilePath))
-                        {
-                            File.WriteAllText(tab.FilePath, tab.Content);
-                        }
-                        else
-                        {
-                            using (var saveDialog = new SaveFileDialog())
-                            {
-                                saveDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
-                                saveDialog.FilterIndex = 1;
-                                saveDialog.RestoreDirectory = true;
-
-                                if (saveDialog.ShowDialog() == DialogResult.OK)
-                                {
-                                    File.WriteAllText(saveDialog.FileName, tab.Content);
-                                }
-                                else
-                                {
-                                    return; // Отменяем закрытие если пользователь отменил сохранение
-                                }
-                            }
-                        }
-                        break;
-
-                    case DialogResult.Cancel:
-                        return; // Отменяем закрытие
-                }
-            }
-
             // Если это была последняя вкладка, очищаем редактор
-            if (_tabsComponent.TabCount == 1) // Проверяем, что это была последняя вкладка
+            if (_tabsComponent.TabCount == 0)
             {
-                _textBox.Text = string.Empty;
-                CurrentFileName = string.Empty;
+                _textBox.Text = "";
+                _textEditorContainer.Visible = false;
+                _currentFileName = "";
                 _currentFilePath = null;
-                IsModified = false;
+                _isModified = false;
+                OnFileNameChanged();
+                EditorEmpty?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        private void OnNewTabCreated(object? sender, TabsComponent.TabEventArgs e)
+        {
+            // Показываем редактор при создании новой вкладки
+            _textEditorContainer.Visible = true;
+            _textBox.Text = "";
+            _currentFileName = e.Title;
+            _currentFilePath = null;
+            _isModified = false;
+            OnFileNameChanged();
         }
     }
 } 

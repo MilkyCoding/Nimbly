@@ -9,7 +9,7 @@ namespace NimblyApp
         private EditorComponent editor;
         private PlaceholderComponent placeholder;
         private FooterComponent footer;
-        private bool hasOpenFile = false;
+        private bool hasOpenFolder = false;
 
         public MainForm()
         {
@@ -64,20 +64,20 @@ namespace NimblyApp
 
         private void OnCreateNewFile(object? sender, EventArgs e)
         {
-            hasOpenFile = true;
+            hasOpenFolder = true;
             UpdateComponentsVisibility();
             UpdateDiscordPresence();
         }
 
         private void UpdateComponentsVisibility()
         {
-            editor.Visible = hasOpenFile;
-            placeholder.Visible = !hasOpenFile;
+            editor.Visible = hasOpenFolder;
+            placeholder.Visible = !hasOpenFolder;
         }
 
         private void UpdateDiscordPresence()
         {
-            if (!hasOpenFile)
+            if (!hasOpenFolder)
             {
                 DiscordRPCService.UpdatePresence("Idle", "Ready to code");
             }
@@ -104,7 +104,7 @@ namespace NimblyApp
 
                 if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
-                    hasOpenFile = true;
+                    hasOpenFolder = true;
                     UpdateComponentsVisibility();
                     // Загружаем содержимое папки в дерево файлов
                     editor.LoadFolder(folderDialog.SelectedPath);
