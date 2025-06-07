@@ -97,6 +97,9 @@ namespace NimblyApp
                 WordWrap = false
             };
 
+            // Подписываемся на изменение цветов
+            ThemeColors.ColorsChanged += ThemeColors_ColorsChanged;
+
             // Привязка событий
             _textBox.TextChanged += TextBox_TextChanged;
             _textBox.FontChanged += TextBox_FontChanged;
@@ -134,6 +137,28 @@ namespace NimblyApp
                 _lineNumberPanel.Invalidate();
                 InitializeTabsHandling();
             };
+        }
+
+        private void ThemeColors_ColorsChanged(object? sender, EventArgs e)
+        {
+            this.BackColor = ThemeColors.MainBackground;
+            _mainContentPanel.BackColor = ThemeColors.MainBackground;
+            _textEditorContainer.BackColor = ThemeColors.MainBackground;
+            _editorContainer.BackColor = ThemeColors.MainBackground;
+            _textBox.BackColor = ThemeColors.MainBackground;
+            _textBox.ForeColor = ThemeColors.WhiteColor;
+            _lineNumberPanel.BackColor = ThemeColors.LineNumberPanel;
+            _fileTreeSplitter.BackColor = ThemeColors.Separator;
+            _lineNumberPanel.Invalidate(); // Перерисовываем номера строк
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ThemeColors.ColorsChanged -= ThemeColors_ColorsChanged;
+            }
+            base.Dispose(disposing);
         }
 
         private void FileTreeComponent_FileSelected(object? sender, string filePath)

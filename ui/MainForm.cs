@@ -48,6 +48,9 @@ namespace NimblyApp
             // Подписываемся на событие смены файла в редакторе
             editor.FileNameChanged += OnEditorFileNameChanged;
 
+            // Подписываемся на изменение цветов
+            ThemeColors.ColorsChanged += ThemeColors_ColorsChanged;
+
             // Добавляем компоненты в правильном порядке
             this.Controls.Add(editor);
             this.Controls.Add(placeholder);
@@ -60,6 +63,22 @@ namespace NimblyApp
 
             // Инициализируем вкладки после создания всех компонентов
             editor.InitializeTabs();
+        }
+
+        private void ThemeColors_ColorsChanged(object? sender, EventArgs e)
+        {
+            // Обновляем цвета всех компонентов
+            this.BackColor = ThemeColors.MainBackground;
+            header.Refresh();
+            editor.Refresh();
+            placeholder.Refresh();
+            footer.Refresh();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            ThemeColors.ColorsChanged -= ThemeColors_ColorsChanged;
         }
 
         private void OnCreateNewFile(object? sender, EventArgs e)

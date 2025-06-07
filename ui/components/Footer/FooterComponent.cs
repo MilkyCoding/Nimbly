@@ -6,6 +6,7 @@ namespace NimblyApp
     public class FooterComponent : UserControl
     {
         private readonly Label extensionLabel;
+        private readonly Label versionLabel;
 
         public FooterComponent()
         {
@@ -13,7 +14,7 @@ namespace NimblyApp
             this.Height = 24;
             this.BackColor = ThemeColors.FooterBackground;
 
-            var versionLabel = new Label
+            versionLabel = new Label
             {
                 Text = "Nimbly v1.0.0",
                 ForeColor = ThemeColors.FooterText,
@@ -38,6 +39,25 @@ namespace NimblyApp
                 Padding = new Padding(0, 5, 10, 5)
             };
             this.Controls.Add(extensionLabel);
+
+            // Подписываемся на изменение цветов
+            ThemeColors.ColorsChanged += ThemeColors_ColorsChanged;
+        }
+
+        private void ThemeColors_ColorsChanged(object? sender, EventArgs e)
+        {
+            this.BackColor = ThemeColors.FooterBackground;
+            extensionLabel.ForeColor = ThemeColors.FooterText;
+            versionLabel.ForeColor = ThemeColors.FooterText;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ThemeColors.ColorsChanged -= ThemeColors_ColorsChanged;
+            }
+            base.Dispose(disposing);
         }
 
         public void SetExtension(string ext)

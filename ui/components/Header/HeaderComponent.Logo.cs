@@ -27,7 +27,7 @@ namespace NimblyApp
             logoContainer.Controls.Add(iconBox);
 
             // Добавляем текст
-            var titleLabel = new Label
+            _titleLabel = new Label
             {
                 Text = "Nimbly",
                 ForeColor = ThemeColors.WhiteColor,
@@ -37,7 +37,7 @@ namespace NimblyApp
                 AutoSize = true,
                 BackColor = Color.Transparent
             };
-            logoContainer.Controls.Add(titleLabel);
+            logoContainer.Controls.Add(_titleLabel);
 
             this.Controls.Add(logoContainer);
         }

@@ -6,7 +6,13 @@ namespace NimblyApp
         {
             var menu = new ContextMenuStrip();
             menu.Items.Add("Editor Settings", null, (s, e) => { /* TODO: Show editor settings */ });
-            menu.Items.Add("Color Theme", null, (s, e) => { /* TODO: Show theme settings */ });
+            menu.Items.Add("Color Theme", null, (s, e) => 
+            {
+                using (var themeForm = new Forms.ThemeSettingsForm())
+                {
+                    themeForm.ShowDialog();
+                }
+            });
             menu.Show(control, new Point(0, control.Height));
         }
 

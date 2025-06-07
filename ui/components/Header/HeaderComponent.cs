@@ -13,6 +13,9 @@ namespace NimblyApp
         private const int WM_NCLBUTTONDOWN = 0xA1;
         private const int HT_CAPTION = 0x2;
         private EditorComponent? _editor;
+        private Label _titleLabel;
+        private Label _separator;
+        private Panel _toolsPanel;
 
         public void SetEditor(EditorComponent editor)
         {
@@ -24,7 +27,7 @@ namespace NimblyApp
             // Настройка параметров шапки
             this.Dock = DockStyle.Top;
             this.Height = 30;
-            this.BackColor = ColorTranslator.FromHtml("#2d2d2d");
+            this.BackColor = ThemeColors.TabPanel;
             this.BringToFront();
 
             // Добавляем обработчик мыши для перетаскивания окна
@@ -46,6 +49,37 @@ namespace NimblyApp
 
             // Создаем кнопки управления окном
             CreateWindowControlButtons();
+
+            // Подписываемся на изменение цветов
+            ThemeColors.ColorsChanged += ThemeColors_ColorsChanged;
+        }
+
+        private void ThemeColors_ColorsChanged(object? sender, EventArgs e)
+        {
+            this.BackColor = ThemeColors.TabPanel;
+            
+            _titleLabel.ForeColor = ThemeColors.WhiteColor;
+            _separator.ForeColor = ThemeColors.Separator;
+
+            // Обновляем цвета кнопок в панели инструментов
+            foreach (Control control in _toolsPanel.Controls)
+            {
+                if (control is Button button)
+                {
+                    button.ForeColor = ThemeColors.LimeColor;
+                    button.FlatAppearance.MouseOverBackColor = ThemeColors.DarkLightColor;
+                    button.FlatAppearance.MouseDownBackColor = ThemeColors.DarkLightColor;
+                }
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ThemeColors.ColorsChanged -= ThemeColors_ColorsChanged;
+            }
+            base.Dispose(disposing);
         }
     }
 }

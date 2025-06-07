@@ -13,7 +13,7 @@ namespace NimblyApp
             };
 
             // Создаем панель для настроек и тулбара (левее от кнопок управления)
-            var toolsPanel = new Panel
+            _toolsPanel = new Panel
             {
                 Dock = DockStyle.Right,
                 Width = 80,
@@ -22,7 +22,7 @@ namespace NimblyApp
             };
 
             // Разделитель
-            var separator = new Label
+            _separator = new Label
             {
                 Text = "│",
                 AutoSize = false,
@@ -36,12 +36,12 @@ namespace NimblyApp
                 Margin = new Padding(0)
             };
 
-            CreateToolButtons(toolsPanel);
+            CreateToolButtons(_toolsPanel);
             CreateWindowButtons(controlButtonsPanel);
 
             // Добавляем панели на заголовок
-            this.Controls.Add(toolsPanel);
-            this.Controls.Add(separator);
+            this.Controls.Add(_toolsPanel);
+            this.Controls.Add(_separator);
             this.Controls.Add(controlButtonsPanel);
         }
 

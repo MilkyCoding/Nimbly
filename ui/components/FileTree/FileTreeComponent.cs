@@ -70,6 +70,27 @@ namespace NimblyApp
             // Собираем компонент
             this.Controls.Add(_treeView);
             this.Controls.Add(_headerPanel);
+
+            // Подписываемся на изменение цветов
+            ThemeColors.ColorsChanged += ThemeColors_ColorsChanged;
+        }
+
+        private void ThemeColors_ColorsChanged(object? sender, EventArgs e)
+        {
+            this.BackColor = ThemeColors.MainBackground;
+            _headerPanel.BackColor = ThemeColors.TabPanel;
+            _folderLabel.ForeColor = ThemeColors.WhiteColor;
+            _treeView.BackColor = ThemeColors.MainBackground;
+            _treeView.ForeColor = ThemeColors.WhiteColor;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ThemeColors.ColorsChanged -= ThemeColors_ColorsChanged;
+            }
+            base.Dispose(disposing);
         }
 
         private void LoadDefaultIcons()

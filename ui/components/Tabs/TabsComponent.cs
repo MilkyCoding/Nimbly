@@ -92,6 +92,52 @@ namespace NimblyApp
 
             this.Controls.Add(_newTabButton);
             this.Controls.Add(_tabsPanel);
+
+            // Подписываемся на изменение цветов
+            ThemeColors.ColorsChanged += ThemeColors_ColorsChanged;
+        }
+
+        private void ThemeColors_ColorsChanged(object? sender, EventArgs e)
+        {
+            this.BackColor = ThemeColors.TabPanel;
+            _tabsPanel.BackColor = ThemeColors.TabPanel;
+            _newTabButton.BackColor = ThemeColors.TabPanel;
+            _newTabButton.ForeColor = ThemeColors.WhiteColor;
+
+            // Обновляем цвета всех вкладок
+            foreach (var tab in _tabs)
+            {
+                if (tab == _activeTab)
+                {
+                    tab.Container.BackColor = ThemeColors.TabActive;
+                }
+                else
+                {
+                    tab.Container.BackColor = ThemeColors.TabInactive;
+                }
+
+                // Обновляем цвета элементов вкладки
+                foreach (Control control in tab.Container.Controls)
+                {
+                    if (control is Label label)
+                    {
+                        label.ForeColor = ThemeColors.WhiteColor;
+                    }
+                    else if (control is Button button)
+                    {
+                        button.ForeColor = ThemeColors.WhiteColor;
+                    }
+                }
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ThemeColors.ColorsChanged -= ThemeColors_ColorsChanged;
+            }
+            base.Dispose(disposing);
         }
 
         public void Initialize()
