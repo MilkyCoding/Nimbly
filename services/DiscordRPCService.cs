@@ -7,6 +7,7 @@ namespace NimblyApp.Services
     {
         private static DiscordRpcClient? _client;
         private const string ClientId = "1380253022029873184";
+        private static Timestamps? _currentTimestamps;
 
         public static void Initialize()
         {
@@ -18,11 +19,17 @@ namespace NimblyApp.Services
             };
 
             _client.Initialize();
+            _currentTimestamps = Timestamps.Now;
         }
 
         public static void UpdatePresence(string details, string state, string largeImageKey = "logo")
         {
             if (_client == null) return;
+
+            if (_currentTimestamps == null)
+            {
+                _currentTimestamps = Timestamps.Now;
+            }
 
             _client.SetPresence(new RichPresence()
             {
@@ -33,7 +40,7 @@ namespace NimblyApp.Services
                     LargeImageKey = largeImageKey,
                     LargeImageText = "Nimbly Editor"
                 },
-                Timestamps = Timestamps.Now
+                Timestamps = _currentTimestamps
             });
         }
 
