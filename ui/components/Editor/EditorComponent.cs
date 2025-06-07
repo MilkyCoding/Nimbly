@@ -12,6 +12,9 @@ namespace NimblyApp
         internal int _lineNumberWidth = 45;
         private readonly TabsComponent _tabsComponent;
         private readonly Panel _editorContainer;
+        private readonly FileTreeComponent _fileTreeComponent;
+        private readonly Panel _mainContentPanel;
+        private readonly Splitter _fileTreeSplitter;
 
         public EditorComponent()
         {
@@ -21,10 +24,33 @@ namespace NimblyApp
             this.BackColor = ThemeColors.MainBackground;
             this.Padding = new Padding(0);
 
+            // Создаем компонент дерева файлов
+            _fileTreeComponent = new FileTreeComponent
+            {
+                Dock = DockStyle.Left,
+                Width = 250,
+                BackColor = ThemeColors.MainBackground
+            };
+
+            // Создаем разделитель для дерева файлов
+            _fileTreeSplitter = new Splitter
+            {
+                Dock = DockStyle.Left,
+                Width = 4,
+                BackColor = ThemeColors.Separator
+            };
+
             // Создаем компонент вкладок
             _tabsComponent = new TabsComponent
             {
                 Dock = DockStyle.Top
+            };
+
+            // Создаем основной контейнер для редактора и вкладок
+            _mainContentPanel = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = ThemeColors.MainBackground
             };
 
             // Создаем контейнер для редактора и номеров строк
@@ -71,12 +97,21 @@ namespace NimblyApp
             _tabsComponent.NewTabCreated += TabsComponent_NewTabCreated;
             _tabsComponent.ContentRequested += TabsComponent_ContentRequested;
 
+            // Подписываемся на события дерева файлов
+            _fileTreeComponent.FileSelected += FileTreeComponent_FileSelected;
+
             // Собираем структуру контролов
             _editorContainer.Controls.Add(_textBox);
             _editorContainer.Controls.Add(_lineNumberPanel);
+            
+            // Добавляем вкладки и редактор в основной контейнер
+            _mainContentPanel.Controls.Add(_editorContainer);
+            _mainContentPanel.Controls.Add(_tabsComponent);
 
-            this.Controls.Add(_editorContainer);
-            this.Controls.Add(_tabsComponent);
+            // Добавляем компоненты в главный контрол в правильном порядке
+            this.Controls.Add(_mainContentPanel);
+            this.Controls.Add(_fileTreeSplitter);
+            this.Controls.Add(_fileTreeComponent);
 
             // Инициализация после добавления контролов
             this.Load += (s, e) =>
@@ -87,6 +122,12 @@ namespace NimblyApp
             };
         }
 
+        private void FileTreeComponent_FileSelected(object? sender, string filePath)
+        {
+            OpenFile(filePath);
+        }
+
+        // Остальные методы остаются без изменений
         private void TabsComponent_TabSwitched(object? sender, TabsComponent.TabEventArgs e)
         {
             _textBox.Text = e.Content;

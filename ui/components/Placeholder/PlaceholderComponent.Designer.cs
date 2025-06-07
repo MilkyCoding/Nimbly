@@ -46,7 +46,7 @@ namespace NimblyApp
                 Dock = DockStyle.None
             };
 
-            // Создаем и настраиваем кнопку
+            // Создаем и настраиваем кнопку нового файла
             createNewFileButton = new Button
             {
                 Text = "Создать новый файл",
@@ -58,15 +58,31 @@ namespace NimblyApp
                 Size = new Size(280, 50)
             };
 
-            // Настраиваем внешний вид кнопки
+            // Создаем и настраиваем кнопку открытия папки
+            openFolderButton = new Button
+            {
+                Text = "Открыть папку",
+                FlatStyle = FlatStyle.Flat,
+                BackColor = ThemeColors.PlaceholderButton,
+                ForeColor = ThemeColors.WhiteColor,
+                Font = new Font("Segoe UI Semibold", 14, FontStyle.Regular),
+                Cursor = Cursors.Hand,
+                Size = new Size(280, 50)
+            };
+
+            // Настраиваем внешний вид кнопок
             createNewFileButton.FlatAppearance.BorderSize = 0;
             createNewFileButton.Region = CreateRoundRectRegion(createNewFileButton.Width, createNewFileButton.Height, 8);
+            
+            openFolderButton.FlatAppearance.BorderSize = 0;
+            openFolderButton.Region = CreateRoundRectRegion(openFolderButton.Width, openFolderButton.Height, 8);
 
             // Добавляем все элементы на панель
             this.Controls.Add(iconLabel);
             this.Controls.Add(messageLabel);
             this.Controls.Add(hintLabel);
             this.Controls.Add(createNewFileButton);
+            this.Controls.Add(openFolderButton);
 
             // Сохраняем ссылки на дополнительные элементы для позиционирования
             this.iconLabel = iconLabel;

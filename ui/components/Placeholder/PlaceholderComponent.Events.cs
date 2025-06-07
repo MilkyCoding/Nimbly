@@ -14,7 +14,7 @@ namespace NimblyApp
         {
             this.Resize += PlaceholderComponent_Resize;
             
-            // Добавляем эффекты при наведении на кнопку
+            // Добавляем эффекты при наведении на кнопку нового файла
             createNewFileButton.MouseEnter += (s, e) => {
                 createNewFileButton.BackColor = buttonHoverColor;
                 this.Cursor = Cursors.Hand;
@@ -26,20 +26,36 @@ namespace NimblyApp
             };
 
             createNewFileButton.Click += (s, e) => {
-                AnimateButtonClick();
+                AnimateButtonClick(createNewFileButton);
                 CreateNewFileClicked?.Invoke(this, EventArgs.Empty);
+            };
+
+            // Добавляем эффекты при наведении на кнопку открытия папки
+            openFolderButton.MouseEnter += (s, e) => {
+                openFolderButton.BackColor = buttonHoverColor;
+                this.Cursor = Cursors.Hand;
+            };
+            
+            openFolderButton.MouseLeave += (s, e) => {
+                openFolderButton.BackColor = buttonDefaultColor;
+                this.Cursor = Cursors.Default;
+            };
+
+            openFolderButton.Click += (s, e) => {
+                AnimateButtonClick(openFolderButton);
+                OpenFolderClicked?.Invoke(this, EventArgs.Empty);
             };
         }
 
-        private void AnimateButtonClick()
+        private void AnimateButtonClick(Button button)
         {
-            var originalColor = createNewFileButton.BackColor;
-            createNewFileButton.BackColor = ThemeColors.PlaceholderButtonActive;
+            var originalColor = button.BackColor;
+            button.BackColor = ThemeColors.PlaceholderButtonActive;
             
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
             timer.Interval = 100;
             timer.Tick += (s, e) => {
-                createNewFileButton.BackColor = originalColor;
+                button.BackColor = originalColor;
                 timer.Stop();
                 timer.Dispose();
             };
@@ -77,10 +93,18 @@ namespace NimblyApp
                 messageLabel.Bottom + spacing / 2
             );
 
-            // Позиционируем кнопку
+            // Позиционируем кнопки
+            int totalButtonsWidth = createNewFileButton.Width + spacing + openFolderButton.Width;
+            int startX = (this.Width - totalButtonsWidth) / 2;
+
             createNewFileButton.Location = new Point(
-                (this.Width - createNewFileButton.Width) / 2,
+                startX,
                 hintLabel.Bottom + spacing * 2
+            );
+
+            openFolderButton.Location = new Point(
+                createNewFileButton.Right + spacing,
+                createNewFileButton.Top
             );
         }
     }

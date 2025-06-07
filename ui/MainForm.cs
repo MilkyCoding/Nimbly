@@ -33,6 +33,8 @@ namespace NimblyApp
 
             // Подписываемся на событие создания нового файла
             placeholder.CreateNewFileClicked += OnCreateNewFile;
+            // Подписываемся на событие открытия папки
+            placeholder.OpenFolderClicked += OnOpenFolder;
 
             // Подписываемся на событие смены файла в редакторе
             editor.FileNameChanged += OnEditorFileNameChanged;
@@ -81,6 +83,25 @@ namespace NimblyApp
                 ext = fileName.Substring(fileName.LastIndexOf('.') + 1);
             }
             footer.SetExtension(ext);
+        }
+
+        private void OnOpenFolder(object? sender, EventArgs e)
+        {
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                folderDialog.Description = "Выберите папку для открытия";
+                folderDialog.UseDescriptionForTitle = true;
+                folderDialog.ShowNewFolderButton = true;
+
+                if (folderDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // TODO: Здесь можно добавить логику открытия папки,
+                    // например, загрузку списка файлов или другие действия
+                    hasOpenFile = true;
+                    UpdateComponentsVisibility();
+                    UpdateDiscordPresence();
+                }
+            }
         }
     }
 }
