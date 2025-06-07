@@ -62,21 +62,23 @@ namespace NimblyApp
             }
         }
 
-        // Метод активации вкладки
-        private void ActivateTab(TabInfo tab)
+        // Метод активации вкладки с дополнительным функционалом для событий
+        internal void ActivateTab(TabInfo tab)
         {
             // Сначала запрашиваем текущий контент для сохранения
             OnContentRequested();
 
             if (_activeTab != null)
             {
-                _activeTab.TabButton.BackColor = ThemeColors.TabInactive;
+                _activeTab.Container.BackColor = ThemeColors.TabInactive;
             }
 
             _activeTab = tab;
-            _activeTab.TabButton.BackColor = ThemeColors.TabActive;
+            _activeTab.Container.BackColor = ThemeColors.TabActive;
             
+            // Вызываем событие переключения вкладки
             OnTabSwitched(tab);
+            // Обновляем статус в Discord
             UpdateDiscordPresence();
         }
 

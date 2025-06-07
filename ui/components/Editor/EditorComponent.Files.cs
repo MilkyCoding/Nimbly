@@ -50,7 +50,7 @@ namespace NimblyApp
         public void NewFile()
         {
             CreateNewTab();
-            _tabsComponent.UpdateDiscordPresence();
+            _tabsComponent?.UpdateDiscordPresence();
         }
 
         public void OpenFile(string filePath)
@@ -80,7 +80,7 @@ namespace NimblyApp
             {
                 MessageBox.Show($"Error opening file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            _tabsComponent.UpdateDiscordPresence();
+            _tabsComponent?.UpdateDiscordPresence();
         }
 
         public void SaveFile()
@@ -109,7 +109,7 @@ namespace NimblyApp
             {
                 MessageBox.Show($"Error saving file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            _tabsComponent.UpdateDiscordPresence();
+            _tabsComponent?.UpdateDiscordPresence();
         }
 
         public void SaveFileAs()
@@ -143,7 +143,7 @@ namespace NimblyApp
                     }
                 }
             }
-            _tabsComponent.UpdateDiscordPresence();
+            _tabsComponent?.UpdateDiscordPresence();
         }
     }
 } 
