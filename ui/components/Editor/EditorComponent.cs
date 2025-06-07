@@ -159,5 +159,13 @@ namespace NimblyApp
         {
             _tabsComponent.AddNewTab();
         }
+
+        public void LoadFolder(string path)
+        {
+            if (_fileTreeComponent != null)
+            {
+                _fileTreeComponent.LoadFolder(path);
+            }
+        }
     }
 }

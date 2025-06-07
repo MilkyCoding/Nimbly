@@ -95,10 +95,10 @@ namespace NimblyApp
 
                 if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // TODO: Здесь можно добавить логику открытия папки,
-                    // например, загрузку списка файлов или другие действия
                     hasOpenFile = true;
                     UpdateComponentsVisibility();
+                    // Загружаем содержимое папки в дерево файлов
+                    editor.LoadFolder(folderDialog.SelectedPath);
                     UpdateDiscordPresence();
                 }
             }
